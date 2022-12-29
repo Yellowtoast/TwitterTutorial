@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+//        if #available(iOS 15.0, *){
+//            let appearance = UITabBarAppearance()
+//            appearance.configureWithOpaqueBackground()
+//            UITabBar.appearance().backgroundColor = UIColor.white
+//            UITabBar.appearance().isTranslucent = true
+//        }
+        FirebaseApp.configure()
+        
         return true
     }
 
@@ -34,3 +43,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+
+extension UIViewController{
+    func addHideKeyboardGesture(){
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard(){
+        view.endEditing(true)
+    }
+}
