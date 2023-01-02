@@ -114,39 +114,11 @@ class RegistrationController: UIViewController{
         guard let fullName = fullNameTextField.text else { return }
         guard let username = userNameTextField.text else { return }
         
-        guard let imageData = profileImage.jpegData(compressionQuality: 0.3) else { return }
-        let filename = NSUUID().uuidString
-        let storageRef = STORAGE_PROFILE_IMAGES.child(filename)
+        let credentials = AuthCredentials(email: email, password: password, fullName: fullName, username: username, profileImage: profileImage)
         
-        storageRef.putData(imageData) { (meta, error) in
-            
-            storageRef.downloadURL(completion: { (url, error) in
-                guard let  profileImageUrl = url?.absoluteString else {
-                    print("DEBUG: 프로필 URL 에러 => \(error?.localizedDescription)")
-                    return
-                }
-                
-                Auth.auth().createUser(withEmail: email, password: password){ (result, error) in
-                    if let error = error{
-                        print("DEBUG: Error is \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    guard let uid = result?.user.uid else {
-                        print("DEBUG: 유저 uid => \(result?.user.uid)")
-                        
-                        return }
-                    
-                    let values = ["email": email, "username": username, "fullname": fullName, "profileImageUrl": profileImageUrl]
-                    
-                    REF_USERS.child(uid).updateChildValues(values){
-                        (error, ref) in
-                        print("DEBUG: 유저정보 업데이트 성공")
-                    }
-                    
-                }
-            })
-            
+        AuthService.shared.registerUser(credentials: credentials)
+        
+        
             
             
             
@@ -155,7 +127,7 @@ class RegistrationController: UIViewController{
         
         
         
-    }
+
     
     @objc func handleAddProfilePhoto(){
         present(imagePicker, animated: true, completion: nil)

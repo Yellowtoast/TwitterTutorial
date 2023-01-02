@@ -10,6 +10,7 @@
 		1A074154D44E91FC721B14A9 /* Pods_TwitterTutorial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2770E7DA3562EB58179D5B7 /* Pods_TwitterTutorial.framework */; };
 		B804B02C295D7C96005ABE20 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B804B02B295D7C96005ABE20 /* GoogleService-Info.plist */; };
 		B804B02E295D878D005ABE20 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804B02D295D878D005ABE20 /* Constants.swift */; };
+		B804B0302962E7E5005ABE20 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804B02F2962E7E5005ABE20 /* AuthService.swift */; };
 		B871EA52295B074A00C069A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B871EA51295B074A00C069A0 /* AppDelegate.swift */; };
 		B871EA54295B074A00C069A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B871EA53295B074A00C069A0 /* SceneDelegate.swift */; };
 		B871EA59295B074A00C069A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B871EA57295B074A00C069A0 /* Main.storyboard */; };
@@ -57,6 +58,7 @@
 		A2770E7DA3562EB58179D5B7 /* Pods_TwitterTutorial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwitterTutorial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B804B02B295D7C96005ABE20 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B804B02D295D878D005ABE20 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B804B02F2962E7E5005ABE20 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B871EA4E295B074A00C069A0 /* TwitterTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B871EA51295B074A00C069A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B871EA53295B074A00C069A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 		B871EA82295B079100C069A0 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				B804B02F2962E7E5005ABE20 /* AuthService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 				B871EA8F295BEB8C00C069A0 /* ExploreController.swift in Sources */,
 				B871EA9D295C012100C069A0 /* RegistrationController.swift in Sources */,
 				B871EA97295BFABB00C069A0 /* Extensions.swift in Sources */,
+				B804B0302962E7E5005ABE20 /* AuthService.swift in Sources */,
 				B871EA54295B074A00C069A0 /* SceneDelegate.swift in Sources */,
 				B871EA8B295B09C900C069A0 /* MainTabController.swift in Sources */,
 				B871EA93295BEBAC00C069A0 /* ConversationController.swift in Sources */,
