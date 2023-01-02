@@ -64,6 +64,7 @@ class LoginController: UIViewController{
     
     override func viewDidLoad(){
         super.viewDidLoad()
+        
         addHideKeyboardGesture()
         configureUI()
     }
@@ -71,6 +72,27 @@ class LoginController: UIViewController{
     // MARK: - Selectors
     
     @objc func handleLogin(){
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+                AuthService.shared.logUserIn(withEmail: email, password: password) { result, error in
+                    if let error = error{
+                        print("DEBUG: 로그인 에러 \(error.localizedDescription)")
+                        return
+                    }
+                    print("DEBUG: 로그인 성공")
+                    guard let window  = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else{
+                        return
+                    }
+                    
+                    guard let tab = UIApplication.shared.keyWindow?.rootViewController as? MainTabController else {
+                        return
+                    }
+                    
+                    tab.authenticateUserAndConfigureUI()
+                    
+                    self.dismiss(animated: true,completion: nil)
+                     
+                }
         
     }
     

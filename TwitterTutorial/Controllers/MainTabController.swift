@@ -6,8 +6,21 @@
 //
 
 import UIKit
+import Firebase
 
 class MainTabController: UITabBarController {
+    
+    // MARK: - Properties
+    
+    var user: User? {
+        didSet{
+            print("유저 정보 세팅 완료")
+            guard let nav = viewControllers?[0] as? UINavigationController else { return }
+            guard let feed = nav.viewControllers.first as? FeedController else { return }
+            
+            feed.user = user
+        }
+    }
     
     let actionButton: UIButton = {
         let button = UIButton(type: .system)
@@ -18,24 +31,62 @@ class MainTabController: UITabBarController {
         return button
     }()
     
-
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
-        addHideKeyboardGesture()
-        configureViewControllers()
-        configureUI()
+         super.viewDidLoad()
+        authenticateUserAndConfigureUI()
 
+     }
+
+    
+    // MARK: - API
+    
+    func fetchUser(){
+        UserService.shared.fetchUser{
+            user in
+            self.user = user
+        }
     }
+    
+    
+    func authenticateUserAndConfigureUI(){
+        if Auth.auth().currentUser == nil{
+            print("DEBUG: User 로그아웃 상태")
+            DispatchQueue.main.async {
+                let nav = UINavigationController(rootViewController: LoginController())
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
+            }
+        }else{
+            print("DEBUG: User 로그인 상태")
+            addHideKeyboardGesture()
+            configureViewControllers()
+            configureUI()
+            fetchUser()
+        }
+    }
+    
+    func logUserOut(){
+        do{
+            try Auth.auth().signOut()
+        } catch let error{
+            print("DEBUG: 유저 로그아웃 실패")
+        }
+    }
+    
     
     // MARK: - Selectors
     
     @objc func actionButtonTapped(){
-        print(123)
+        let nav = UINavigationController(rootViewController: UploadTweetController())
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
     
 
     
-    // MARK: -Helpers
+    // MARK: - Helpers
     
     func configureUI(){
         view.addSubview(actionButton)
@@ -51,8 +102,6 @@ class MainTabController: UITabBarController {
     }
     
     func configureViewControllers(){
-        
-        
         let feed = FeedController()
         let nav1 = templateNavigationController(
             image: UIImage(named:"home_unselected"),
@@ -73,7 +122,9 @@ class MainTabController: UITabBarController {
             image: UIImage(named: "ic_mail_outline_white_2x-1"),
             rootViewController: conversations)
         
-        viewControllers = [nav1, nav2, nav3, nav4]
+//        viewControllers = [nav1, nav2, nav3, nav4]
+        
+        setViewControllers([nav1,nav2,nav3,nav4], animated: true)
 
     }
     

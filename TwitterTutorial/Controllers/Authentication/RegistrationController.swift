@@ -60,7 +60,7 @@ class RegistrationController: UIViewController{
     }()
     
     private let fullNameTextField: UITextField = {
-        let tf = Utilities().textField(withPlaceholder:"Full Name")
+        let tf = Utilities().textField(withPlaceholder:"Fullname")
         
         return tf
     }()
@@ -111,17 +111,26 @@ class RegistrationController: UIViewController{
         }
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
-        guard let fullName = fullNameTextField.text else { return }
+        guard let fullname = fullNameTextField.text else { return }
         guard let username = userNameTextField.text else { return }
         
-        let credentials = AuthCredentials(email: email, password: password, fullName: fullName, username: username, profileImage: profileImage)
+        let credentials = AuthCredentials(email: email, password: password, fullname: fullname, username: username, profileImage: profileImage)
         
-        AuthService.shared.registerUser(credentials: credentials)
-        
-        
+        AuthService.shared.registerUser(credentials: credentials, completion: {
+            (error, ref) in
+            print("DEBUG: 회원가입 성공")
+            guard let window  = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else{
+                return
+            }
             
+            guard let tab = UIApplication.shared.keyWindow?.rootViewController as? MainTabController else {
+                return
+            }
             
+            tab.authenticateUserAndConfigureUI()
             
+            self.dismiss(animated: true,completion: nil)
+        })
             
         }
         

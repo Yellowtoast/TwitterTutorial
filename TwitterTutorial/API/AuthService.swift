@@ -10,7 +10,7 @@ import Firebase
 struct AuthCredentials{
     let email: String
     let password: String
-    let fullName: String
+    let fullname: String
     let username: String
     let profileImage: UIImage
 }
@@ -18,7 +18,12 @@ struct AuthCredentials{
 struct AuthService{
     static let shared = AuthService()
     
-    func registerUser(credentials: AuthCredentials){
+    func logUserIn(withEmail email: String, password: String, completion: @escaping(AuthDataResult?, Error?) -> Void){
+        Auth.auth().signIn(withEmail: email, password: password, completion: completion)
+        
+    }
+    
+    func registerUser(credentials: AuthCredentials, completion: @escaping(Error?, DatabaseReference)-> Void){
         
         guard let imageData = credentials.profileImage.jpegData(compressionQuality: 0.3) else { return }
         let filename = NSUUID().uuidString
@@ -43,12 +48,14 @@ struct AuthService{
                         
                         return }
                     
-                    let values = ["email": credentials.email, "username": credentials.username, "fullname": credentials.fullName, "profileImageUrl": profileImageUrl]
+                    let values = ["email": credentials.email, "username": credentials.username, "fullname": credentials.fullname, "profileImageUrl": profileImageUrl]
                     
-                    REF_USERS.child(uid).updateChildValues(values){
-                        (error, ref) in
-                        print("DEBUG: 유저정보 업데이트 성공")
-                    }
+//                    REF_USERS.child(uid).updateChildValues(values){
+//                        (error, ref) in
+//                        print("DEBUG: 유저정보 업데이트 성공")
+//                    }
+                    
+                    REF_USERS.child(uid).updateChildValues(values, withCompletionBlock: completion)
                     
                 }
             })
